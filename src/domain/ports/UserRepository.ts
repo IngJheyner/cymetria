@@ -1,8 +1,11 @@
 import { User } from "../entities/User";
+import { PaginatedResult, PaginationParams } from "../types/Pagination";
 
 export interface UserRepository {
-	findAll(): Promise<User[]>;
+	findAll(params: PaginationParams): Promise<PaginatedResult<User>>;
 	findById(id: string): Promise<User | null>;
-	save(user: User): Promise<void>;
-	findByEmail?(email: string): Promise<User | null>;
+	save(user: User): Promise<User>;
+	update(id: string, user: Partial<User>): Promise<User | null>;
+	delete(id: string): Promise<boolean>;
+	findByEmail(email: string): Promise<User | null>;
 }

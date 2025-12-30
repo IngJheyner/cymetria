@@ -18,5 +18,7 @@ export const ENVS_DB = {
 };
 
 export const ENVS_APP = {
-	IS_PRODUCTION: process.env.NODE_ENV !== "production",
+	IS_PRODUCTION: process.env.NODE_ENV === "production", // Bug corregido: era !== debería ser ===
+	NODE_ENV: process.env.NODE_ENV || "development",
+	PORT: process.env.PORT || 3000,
 };
