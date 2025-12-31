@@ -20,10 +20,10 @@ export class UserService {
 	async getAllUsers(params: PaginationParams): Promise<PaginatedResult<User>> {
 		// Validación de reglas de negocio
 		if (params.page < 1) {
-			throw new HttpException(400, "Page must be greater than 0");
+			throw new HttpException(400, "La página debe ser mayor a 0");
 		}
 		if (params.pageSize < 1 || params.pageSize > 100) {
-			throw new HttpException(400, "PageSize must be between 1 and 100");
+			throw new HttpException(400, "El tamaño de la página debe ser entre 1 y 100");
 		}
 
 		return this.userRepository.findAll(params);
@@ -34,13 +34,13 @@ export class UserService {
 	 */
 	async getUserById(id: string): Promise<User> {
 		if (!id || id.trim() === "") {
-			throw new HttpException(400, "User ID is required");
+			throw new HttpException(400, "ID de usuario requerido");
 		}
 
 		const user = await this.userRepository.findById(id);
 		
 		if (!user) {
-			throw new HttpException(404, `User with ID ${id} not found`);
+			throw new HttpException(404, `Usuario con ID ${id} no encontrado`);
 		}
 
 		return user;

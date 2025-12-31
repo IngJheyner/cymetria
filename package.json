@@ -8,7 +8,11 @@
 		"build": "tsc",
 		"start": "NODE_ENV=production node dist/index.js",
 		"clean": "rm -rf dist",
-		"lint": "echo \"(opcional) Agregá ESLint aquí si querés :)\""
+		"lint": "echo \"(opcional) Agregá ESLint aquí si querés :)\"",
+		"test": "jest",
+		"test:watch": "jest --watch",
+		"test:coverage": "jest --coverage",
+		"test:verbose": "jest --verbose"
 	},
 	"keywords": [],
 	"author": "",
@@ -27,8 +31,11 @@
 	},
 	"devDependencies": {
 		"@types/express": "^5.0.1",
+		"@types/jest": "^30.0.0",
 		"@types/node": "^22.13.14",
 		"@types/sequelize": "^4.28.20",
+		"jest": "^30.2.0",
+		"ts-jest": "^29.4.6",
 		"ts-node-dev": "^2.0.0",
 		"typescript": "^5.8.2"
 	}
