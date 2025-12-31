@@ -32,11 +32,18 @@ const userController = container.resolve(UserController);
  * CRUD completo de usuarios con validación
  * 
  * GET    /api/v1/users          → Lista usuarios (paginado)
+ * GET    /api/v1/users/export   → Exporta todos los usuarios a CSV
  * GET    /api/v1/users/:id      → Obtiene un usuario
  * POST   /api/v1/users          → Crea un usuario
  * PUT    /api/v1/users/:id      → Actualiza un usuario
  * DELETE /api/v1/users/:id      → Elimina un usuario
  */
+
+// Exportar usuarios a CSV (DEBE ir ANTES de /:id para evitar conflicto)
+router.get(
+	"/export",
+	withTryCatch(userController.exportUsers.bind(userController))
+);
 
 // Listar usuarios con paginación
 router.get(

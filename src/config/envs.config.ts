@@ -1,13 +1,13 @@
 import dotenv from "dotenv";
 import path from "path";
 
-const env = process.env.NODE_ENV || "development";
-
+// Cargar variables de entorno desde .env (único archivo)
 dotenv.config({
-	path: path.resolve(__dirname, `../../.env.${env}`),
+	path: path.resolve(__dirname, "../../.env"),
 });
 
-console.log(`[ENV] Loaded .env.${env}`);
+const env = process.env.NODE_ENV || "development";
+console.log(`[ENV] Loaded .env (NODE_ENV: ${env})`);
 
 export const ENVS_DB = {
 	DB_HOST: process.env.DB_HOST,

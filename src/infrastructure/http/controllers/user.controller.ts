@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
+import { ExportService } from "../services/export.service";
 import { container } from "tsyringe";
 
 /**
@@ -7,6 +8,7 @@ import { container } from "tsyringe";
  */
 
 const userService = container.resolve(UserService);
+const exportService = container.resolve(ExportService);
 
 export class UserController {
 	/**
@@ -91,5 +93,33 @@ export class UserController {
 
 		// 204 No Content: operación exitosa sin contenido que devolver
 		res.status(204).send();
+	}
+
+	/**
+	 * GET /api/v1/users/export
+	 * 
+	 * Exporta todos los usuarios a CSV
+	 * 
+	 * ESTRATEGIA DE ESCALABILIDAD:
+	 * - Usa streaming para no cargar todo en memoria
+	 * - Procesa por chunks de 100 usuarios
+	 * - Caché de 5 minutos si los datos no cambiaron
+	 * - Funciona con 5K, 50K, 500K+ usuarios sin problemas
+	 * 
+	 * Headers de respuesta:
+	 * - Content-Type: text/csv; charset=utf-8
+	 * - Content-Disposition: attachment; filename="users_export.csv"
+	 * - Transfer-Encoding: chunked (streaming)
+	 */
+	async exportUsers(req: Request, res: Response) {
+		// Configurar headers para descarga de archivo CSV
+		res.setHeader("Content-Type", "text/csv; charset=utf-8");
+		res.setHeader(
+			"Content-Disposition",
+			`attachment; filename="users_export_${new Date().toISOString().split("T")[0]}.csv"`
+		);
+
+		// Streaming: el servicio escribe directamente a res (HTTP response stream)
+		await exportService.exportUsersToCSV(res);
 	}
 }

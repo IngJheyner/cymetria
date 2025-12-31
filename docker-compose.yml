@@ -1,0 +1,52 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: cymetria_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      # Configuración de zona horaria
+      TZ: America/Bogota
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      # Persistencia de datos
+      - mysql_data:/var/lib/mysql
+      # Script de inicialización (opcional)
+      #./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - cymetria_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Adminer (opcional) - Gestor de BD web
+  adminer:
+    image: adminer:latest
+    container_name: cymetria_adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - cymetria_network
+    depends_on:
+      - mysql
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+
+volumes:
+  mysql_data:
+    name: cymetria_mysql_data
+
+networks:
+  cymetria_network:
+    name: cymetria_network
+    driver: bridge
+

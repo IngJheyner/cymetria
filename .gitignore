@@ -77,11 +77,11 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
+# Solo .env contiene valores reales (no debe subirse al repo)
+# .env.example SÍ va al repo (es el template)
 .env
-.env.development.local
-.env.test.local
-.env.production.local
 .env.local
+.env.*.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -143,9 +143,17 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/node
 
-.env.development
-.env.production
+# Caché de exportaciones
+exports_cache/
 
+# Documentación (opcional: comentar si quieres incluirla en git)
 GUIA_PEDAGOGICA_ARQUITECTURA.md
 RESUMEN_IMPLEMENTACION.md
 CRUD_DOCUMENTATION.md
+EXPORTACION_ESCALABILIDAD.md
+RESUMEN_REQUERIMIENTO_2.md
+RESUMEN_DOCKER_SETUP.md
+ENV_TEMPLATE.md
+DOCKER_SETUP.md
+RESUMEN_DOCKER_SETUP.md
+PRUEBAS_MANUALES.md

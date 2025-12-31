@@ -14,8 +14,10 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"csv-writer": "^1.6.0",
 		"dotenv": "^16.4.7",
 		"express": "^4.21.2",
+		"fast-csv": "^5.0.5",
 		"mysql2": "^3.14.0",
 		"reflect-metadata": "^0.2.2",
 		"sequelize": "^6.37.7",
