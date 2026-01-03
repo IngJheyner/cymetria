@@ -1,4 +1,5 @@
 import express, { Application } from "express";
+import cors from "cors";
 import UserRoute from "./infrastructure/http/routes/v1/user.route";
 import { sequelize } from "./config/database";
 import { errorHandler } from "./infrastructure/http/middlewares/error.middleware";
@@ -19,6 +20,14 @@ export default class App {
 	}
 
 	private initializeMiddlewares(): void {
+		// CORS - Permitir peticiones desde el frontend
+		this.app.use(
+			cors({
+				origin: process.env.FRONTEND_URL || "http://localhost:3001",
+				credentials: true,
+			})
+		);
+		
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: true }));
 	}
